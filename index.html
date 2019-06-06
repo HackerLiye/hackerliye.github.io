@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
@@ -131,7 +131,7 @@
 
 
 
-  <title>木有粗面</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>木有粗面</title>
   
 
 
@@ -150,7 +150,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  <div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
 
@@ -334,7 +334,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  649
+                  1.2k
                 </span>
               
 
@@ -350,7 +350,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  5
                 </span>
               
             </div>
@@ -379,9 +379,50 @@
 <p>进阶:</p>
 <p>你是否可以在$O(1)$ 时间复杂度内完成这两种操作？</p>
 <p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LRUCache cache = new LRUCache( 2 /* 缓存容量 */ );</span><br><span class="line"></span><br><span class="line">cache.put(1, 1);</span><br><span class="line">cache.put(2, 2);</span><br><span class="line">cache.get(1);       // 返回  1</span><br><span class="line">cache.put(3, 3);    // 该操作会使得密钥 2 作废</span><br><span class="line">cache.get(2);       // 返回 -1 (未找到)</span><br><span class="line">cache.put(4, 4);    // 该操作会使得密钥 1 作废</span><br><span class="line">cache.get(1);       // 返回 -1 (未找到)</span><br><span class="line">cache.get(3);       // 返回  3</span><br><span class="line">cache.get(4);       // 返回  4</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cache = LRUCache(2)</span><br><span class="line"></span><br><span class="line">cache.put(1, 1);</span><br><span class="line">cache.put(2, 2);</span><br><span class="line">cache.get(1);       // 返回  1</span><br><span class="line">cache.put(3, 3);    // 该操作会使得密钥 2 作废</span><br><span class="line">cache.get(2);       // 返回 -1 (未找到)</span><br><span class="line">cache.put(4, 4);    // 该操作会使得密钥 1 作废</span><br><span class="line">cache.get(1);       // 返回 -1 (未找到)</span><br><span class="line">cache.get(3);       // 返回  3</span><br><span class="line">cache.get(4);       // 返回  4</span><br></pre></td></tr></table></figure>
 
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, key=None, value=None)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.value = value</span><br><span class="line">        self.prev = <span class="literal">None</span></span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity: int)</span>:</span></span><br><span class="line">        self.capacity = capacity</span><br><span class="line">        self.hashmap = &#123;&#125;</span><br><span class="line">        <span class="comment"># 新建两个节点 head 和 tail</span></span><br><span class="line">        self.head = ListNode()</span><br><span class="line">        self.tail = ListNode()</span><br><span class="line">        <span class="comment"># 初始化链表为 head &lt;-&gt; tail</span></span><br><span class="line">        self.head.next = self.tail</span><br><span class="line">        self.tail.prev = self.head</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.hashmap:</span><br><span class="line">            node = self.hashmap[key]</span><br><span class="line">            node.prev.next = node.next</span><br><span class="line">            node.next.prev = node.prev</span><br><span class="line">            node.prev = self.tail.prev</span><br><span class="line">            node.next = self.tail</span><br><span class="line">            self.tail.prev.next = node</span><br><span class="line">            self.tail.prev = node</span><br><span class="line">        res = self.hashmap.get(key, <span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> res == <span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> res.value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key: int, value: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.hashmap:</span><br><span class="line">            <span class="comment"># 如果key本身已经在哈希表中了就不需要在链表中加入新的节点</span></span><br><span class="line">            <span class="comment"># 但是需要更新字典该值对应节点的value</span></span><br><span class="line">            self.hashmap[key].value = value</span><br><span class="line">            <span class="comment"># 先将哈希表key指向的节点拎出来，为了简洁起名node</span></span><br><span class="line">            <span class="comment">#      hashmap[key]                               hashmap[key]</span></span><br><span class="line">            <span class="comment">#           |                                          |</span></span><br><span class="line">            <span class="comment">#           V              --&gt;                         V</span></span><br><span class="line">            <span class="comment"># prev &lt;-&gt; node &lt;-&gt; next         pre &lt;-&gt; next   ...   node</span></span><br><span class="line">            node = self.hashmap[key]</span><br><span class="line">            node.prev.next = node.next</span><br><span class="line">            node.next.prev = node.prev</span><br><span class="line">            <span class="comment"># 之后将node插入到尾节点前</span></span><br><span class="line">            <span class="comment">#                  hashmap[key]                 hashmap[key]</span></span><br><span class="line">            <span class="comment">#                      |                            |</span></span><br><span class="line">            <span class="comment">#                      V        --&gt;                 V</span></span><br><span class="line">            <span class="comment"># prev &lt;-&gt; tail  ...  node                prev &lt;-&gt; node &lt;-&gt; tail</span></span><br><span class="line">            node.prev = self.tail.prev</span><br><span class="line">            node.next = self.tail</span><br><span class="line">            self.tail.prev.next = node</span><br><span class="line">            self.tail.prev = node</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> len(self.hashmap) == self.capacity:</span><br><span class="line">                <span class="comment"># 去掉哈希表对应项</span></span><br><span class="line">                self.hashmap.pop(self.head.next.key)</span><br><span class="line">                <span class="comment"># 去掉最久没有被访问过的节点，即头节点之后的节点</span></span><br><span class="line">                self.head.next = self.head.next.next</span><br><span class="line">                self.head.next.prev = self.head</span><br><span class="line">            <span class="comment"># 如果不在的话就插入到尾节点前</span></span><br><span class="line">            new = ListNode(key, value)</span><br><span class="line">            self.hashmap[key] = new</span><br><span class="line">            new.prev = self.tail.prev</span><br><span class="line">            new.next = self.tail</span><br><span class="line">            self.tail.prev.next = new</span><br><span class="line">            self.tail.prev = new</span><br></pre></td></tr></table></figure>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>看到题目要我们实现一个可以存储key-value形式数据的数据结构，并且可以记录最近访问的key值。首先想到的就是用字典来存储key-value结构，这样对于查找操作时间复杂度就是$O(1)$。</p>
+<p>但是因为字典本身是无序的，所以我们还需要一个类似于队列的结构来记录访问的先后顺序，这个队列需要支持如下几种操作：</p>
+<ul>
+<li>在末尾加入一项</li>
+<li>去除最前端一项</li>
+<li>将队列中某一项移到末尾</li>
+</ul>
+<p><strong>首先考虑列表结构。</strong></p>
+<p>对于列表加入有<code>append()</code>，删除有<code>pop()</code>操作，这两个都是$O(1)$的时间复杂度。而对于将队列中某一项移到末尾，因为列表中存储的是哈希表的key，考虑这样一种情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 操作</span></span><br><span class="line">cache = LRUCache(<span class="number">4</span>)</span><br><span class="line">cache.put(<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line">cache.put(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">cache.put(<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 操作之后队列：</span></span><br><span class="line"><span class="comment"># queue = [3, 2, 1]</span></span><br></pre></td></tr></table></figure>
+
+<p>此时我们再进行<code>cache.put(2, 2)</code>的操作，因为2已经存在在哈希表中，这说明队列中已经存在值为2的元素，那么问题来了，如何在常数时间内把它挑出来移到队尾呢？</p>
+<p>答案是不行，所以用列表无法实现常熟时间复杂度。</p>
+<p><strong>之后再考虑单链表。</strong></p>
+<p>对于单链表，哈希表的结构类似于<code>{key: ListNode(value)}</code>，即键所对应的是一个节点地址，节点的值是value。对于链表，遇到上面那种情况时可以在常数的时间内找到对应的节点，但是如果想将它移到尾部则需要从头遍历到该节点才能保证链表不断，对于这种情况需要的时间复杂度也是$O(n)$</p>
+<p>为了解决移到末尾这个问题，需要使用双链表来记录，结构大概如下图所示：</p>
+<pre class="mermaid">graph LR
+
+subgraph 哈希表
+    hash1("hashmap[1]")
+    hash2("hashmap[2]")
+    hash1 -.- hash2
+end
+
+subgraph 双向链表
+    head
+    node1
+    node2
+    tail
+end
+    hash1-->node1
+    hash2-->node2
+    head-->node1
+    node1-->node2
+    node2-->tail
+    tail-->node2
+    node2-->node1
+    node1-->head</pre>
+<blockquote>
+<p>这个实在是太丑了没眼看，以后不用了</p>
+</blockquote>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, key=None, value=None)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.value = value</span><br><span class="line">        self.prev = <span class="literal">None</span></span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity: int)</span>:</span></span><br><span class="line">        self.capacity = capacity</span><br><span class="line">        self.hashmap = &#123;&#125;</span><br><span class="line">        <span class="comment"># 新建两个节点 head 和 tail</span></span><br><span class="line">        self.head = ListNode()</span><br><span class="line">        self.tail = ListNode()</span><br><span class="line">        <span class="comment"># 初始化链表为 head &lt;-&gt; tail</span></span><br><span class="line">        self.head.next = self.tail</span><br><span class="line">        self.tail.prev = self.head</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 因为get与put操作都可能需要将双向链表中的某个节点移到末尾，所以定义一个方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">move_node_to_tail</span><span class="params">(self, key)</span>:</span></span><br><span class="line">            <span class="comment"># 先将哈希表key指向的节点拎出来，为了简洁起名node</span></span><br><span class="line">            <span class="comment">#      hashmap[key]                               hashmap[key]</span></span><br><span class="line">            <span class="comment">#           |                                          |</span></span><br><span class="line">            <span class="comment">#           V              --&gt;                         V</span></span><br><span class="line">            <span class="comment"># prev &lt;-&gt; node &lt;-&gt; next         pre &lt;-&gt; next   ...   node</span></span><br><span class="line">            node = self.hashmap[key]</span><br><span class="line">            node.prev.next = node.next</span><br><span class="line">            node.next.prev = node.prev</span><br><span class="line">            <span class="comment"># 之后将node插入到尾节点前</span></span><br><span class="line">            <span class="comment">#                 hashmap[key]                 hashmap[key]</span></span><br><span class="line">            <span class="comment">#                      |                            |</span></span><br><span class="line">            <span class="comment">#                      V        --&gt;                 V</span></span><br><span class="line">            <span class="comment"># prev &lt;-&gt; tail  ...  node                prev &lt;-&gt; node &lt;-&gt; tail</span></span><br><span class="line">            node.prev = self.tail.prev</span><br><span class="line">            node.next = self.tail</span><br><span class="line">            self.tail.prev.next = node</span><br><span class="line">            self.tail.prev = node</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.hashmap:</span><br><span class="line">            <span class="comment"># 如果已经在链表中了久把它移到末尾（变成最新访问的）</span></span><br><span class="line">            self.move_node_to_tail(key)</span><br><span class="line">        res = self.hashmap.get(key, <span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> res == <span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> res.value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key: int, value: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.hashmap:</span><br><span class="line">            <span class="comment"># 如果key本身已经在哈希表中了就不需要在链表中加入新的节点</span></span><br><span class="line">            <span class="comment"># 但是需要更新字典该值对应节点的value</span></span><br><span class="line">            self.hashmap[key].value = value</span><br><span class="line">            <span class="comment"># 之后将该节点移到末尾</span></span><br><span class="line">            self.move_node_to_tail(key)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> len(self.hashmap) == self.capacity:</span><br><span class="line">                <span class="comment"># 去掉哈希表对应项</span></span><br><span class="line">                self.hashmap.pop(self.head.next.key)</span><br><span class="line">                <span class="comment"># 去掉最久没有被访问过的节点，即头节点之后的节点</span></span><br><span class="line">                self.head.next = self.head.next.next</span><br><span class="line">                self.head.next.prev = self.head</span><br><span class="line">            <span class="comment"># 如果不在的话就插入到尾节点前</span></span><br><span class="line">            new = ListNode(key, value)</span><br><span class="line">            self.hashmap[key] = new</span><br><span class="line">            new.prev = self.tail.prev</span><br><span class="line">            new.next = self.tail</span><br><span class="line">            self.tail.prev.next = new</span><br><span class="line">            self.tail.prev = new</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1431,6 +1472,14 @@
 
 
 
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
         
 
 
@@ -1610,7 +1659,7 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

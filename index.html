@@ -372,58 +372,18 @@
 
       
         
-          
-            <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>运用你所掌握的数据结构，设计和实现一个  <code>LRU (最近最少使用)</code> 缓存机制。它应该支持以下操作： 获取数据 <code>get</code> 和 写入数据 <code>put</code> 。</p>
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>运用你所掌握的数据结构，设计和实现一个  <code>LRU (最近最少使用)</code> 缓存机制。它应该支持以下操作： 获取数据 <code>get</code> 和 写入数据 <code>put</code> 。</p>
 <p>获取数据 <code>get(key)</code> - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。</p>
 <p>写入数据 <code>put(key, value)</code> - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
 <p>进阶:</p>
 <p>你是否可以在$O(1)$ 时间复杂度内完成这两种操作？</p>
-<p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cache = LRUCache(2)</span><br><span class="line"></span><br><span class="line">cache.put(1, 1);</span><br><span class="line">cache.put(2, 2);</span><br><span class="line">cache.get(1);       // 返回  1</span><br><span class="line">cache.put(3, 3);    // 该操作会使得密钥 2 作废</span><br><span class="line">cache.get(2);       // 返回 -1 (未找到)</span><br><span class="line">cache.put(4, 4);    // 该操作会使得密钥 1 作废</span><br><span class="line">cache.get(1);       // 返回 -1 (未找到)</span><br><span class="line">cache.get(3);       // 返回  3</span><br><span class="line">cache.get(4);       // 返回  4</span><br></pre></td></tr></table></figure>
-
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>看到题目要我们实现一个可以存储key-value形式数据的数据结构，并且可以记录最近访问的key值。首先想到的就是用字典来存储key-value结构，这样对于查找操作时间复杂度就是$O(1)$。</p>
-<p>但是因为字典本身是无序的，所以我们还需要一个类似于队列的结构来记录访问的先后顺序，这个队列需要支持如下几种操作：</p>
-<ul>
-<li>在末尾加入一项</li>
-<li>去除最前端一项</li>
-<li>将队列中某一项移到末尾</li>
-</ul>
-<p><strong>首先考虑列表结构。</strong></p>
-<p>对于列表加入有<code>append()</code>，删除有<code>pop()</code>操作，这两个都是$O(1)$的时间复杂度。而对于将队列中某一项移到末尾，因为列表中存储的是哈希表的key，考虑这样一种情况：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 操作</span></span><br><span class="line">cache = LRUCache(<span class="number">4</span>)</span><br><span class="line">cache.put(<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line">cache.put(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">cache.put(<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 操作之后队列：</span></span><br><span class="line"><span class="comment"># queue = [3, 2, 1]</span></span><br></pre></td></tr></table></figure>
-
-<p>此时我们再进行<code>cache.put(2, 2)</code>的操作，因为2已经存在在哈希表中，这说明队列中已经存在值为2的元素，那么问题来了，如何在常数时间内把它挑出来移到队尾呢？</p>
-<p>答案是不行，所以用列表无法实现常熟时间复杂度。</p>
-<p><strong>之后再考虑单链表。</strong></p>
-<p>对于单链表，哈希表的结构类似于<code>{key: ListNode(value)}</code>，即键所对应的是一个节点地址，节点的值是value。对于链表，遇到上面那种情况时可以在常数的时间内找到对应的节点，但是如果想将它移到尾部则需要从头遍历到该节点才能保证链表不断，对于这种情况需要的时间复杂度也是$O(n)$</p>
-<p>为了解决移到末尾这个问题，需要使用双链表来记录，结构大概如下图所示：</p>
-<pre class="mermaid">graph LR
-
-subgraph 哈希表
-    hash1("hashmap[1]")
-    hash2("hashmap[2]")
-    hash1 -.- hash2
-end
-
-subgraph 双向链表
-    head
-    node1
-    node2
-    tail
-end
-    hash1-->node1
-    hash2-->node2
-    head-->node1
-    node1-->node2
-    node2-->tail
-    tail-->node2
-    node2-->node1
-    node1-->head</pre>
-<blockquote>
-<p>这个实在是太丑了没眼看，以后不用了</p>
-</blockquote>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, key=None, value=None)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.value = value</span><br><span class="line">        self.prev = <span class="literal">None</span></span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity: int)</span>:</span></span><br><span class="line">        self.capacity = capacity</span><br><span class="line">        self.hashmap = &#123;&#125;</span><br><span class="line">        <span class="comment"># 新建两个节点 head 和 tail</span></span><br><span class="line">        self.head = ListNode()</span><br><span class="line">        self.tail = ListNode()</span><br><span class="line">        <span class="comment"># 初始化链表为 head &lt;-&gt; tail</span></span><br><span class="line">        self.head.next = self.tail</span><br><span class="line">        self.tail.prev = self.head</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 因为get与put操作都可能需要将双向链表中的某个节点移到末尾，所以定义一个方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">move_node_to_tail</span><span class="params">(self, key)</span>:</span></span><br><span class="line">            <span class="comment"># 先将哈希表key指向的节点拎出来，为了简洁起名node</span></span><br><span class="line">            <span class="comment">#      hashmap[key]                               hashmap[key]</span></span><br><span class="line">            <span class="comment">#           |                                          |</span></span><br><span class="line">            <span class="comment">#           V              --&gt;                         V</span></span><br><span class="line">            <span class="comment"># prev &lt;-&gt; node &lt;-&gt; next         pre &lt;-&gt; next   ...   node</span></span><br><span class="line">            node = self.hashmap[key]</span><br><span class="line">            node.prev.next = node.next</span><br><span class="line">            node.next.prev = node.prev</span><br><span class="line">            <span class="comment"># 之后将node插入到尾节点前</span></span><br><span class="line">            <span class="comment">#                 hashmap[key]                 hashmap[key]</span></span><br><span class="line">            <span class="comment">#                      |                            |</span></span><br><span class="line">            <span class="comment">#                      V        --&gt;                 V</span></span><br><span class="line">            <span class="comment"># prev &lt;-&gt; tail  ...  node                prev &lt;-&gt; node &lt;-&gt; tail</span></span><br><span class="line">            node.prev = self.tail.prev</span><br><span class="line">            node.next = self.tail</span><br><span class="line">            self.tail.prev.next = node</span><br><span class="line">            self.tail.prev = node</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.hashmap:</span><br><span class="line">            <span class="comment"># 如果已经在链表中了久把它移到末尾（变成最新访问的）</span></span><br><span class="line">            self.move_node_to_tail(key)</span><br><span class="line">        res = self.hashmap.get(key, <span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> res == <span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> res.value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key: int, value: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.hashmap:</span><br><span class="line">            <span class="comment"># 如果key本身已经在哈希表中了就不需要在链表中加入新的节点</span></span><br><span class="line">            <span class="comment"># 但是需要更新字典该值对应节点的value</span></span><br><span class="line">            self.hashmap[key].value = value</span><br><span class="line">            <span class="comment"># 之后将该节点移到末尾</span></span><br><span class="line">            self.move_node_to_tail(key)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> len(self.hashmap) == self.capacity:</span><br><span class="line">                <span class="comment"># 去掉哈希表对应项</span></span><br><span class="line">                self.hashmap.pop(self.head.next.key)</span><br><span class="line">                <span class="comment"># 去掉最久没有被访问过的节点，即头节点之后的节点</span></span><br><span class="line">                self.head.next = self.head.next.next</span><br><span class="line">                self.head.next.prev = self.head</span><br><span class="line">            <span class="comment"># 如果不在的话就插入到尾节点前</span></span><br><span class="line">            new = ListNode(key, value)</span><br><span class="line">            self.hashmap[key] = new</span><br><span class="line">            new.prev = self.tail.prev</span><br><span class="line">            new.next = self.tail</span><br><span class="line">            self.tail.prev.next = new</span><br><span class="line">            self.tail.prev = new</span><br></pre></td></tr></table></figure>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/06/lru-cache/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -573,33 +533,14 @@ end
 
       
         
-          
-            <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定不同面额的硬币 <code>coins</code> 和一个总金额 <code>amount</code>。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code>。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: coins = [1, 2, 5], amount = 11</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 11 = 5 + 5 + 1</span><br></pre></td></tr></table></figure>
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: coins = [2], amount = 3</span><br><span class="line">输出: -1</span><br></pre></td></tr></table></figure>
-
-<p>说明:<br>你可以认为每种硬币的数量是无限的。</p>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>如果要求出用1，2，5来凑11的最小个数，即求$f(11)$，而$f(11)$可以用$f(10)+1$，$f(9)+1$，$f(6)+1$中其中一个来表示，那么<br>$$f(11)=\min(f(10)+1， f(9)+1，f(6)+1)$$<br>同样的，为了计算$f(11)$，就需要知道$f(10),f(9),f(6)$的值。而<br>$$f(10)=\min(f(9)+1， f(8)+1，f(5)+1)$$<br>其中$f(9)$已经计算过了，可以用一个数组将其记录下来来减少计算量。</p>
-<p>以此类推，最后可以得到<br>$$f(5)=f(2)=f(1)=1$$</p>
-<p>新建一个<code>dp</code>数组，长度为<code>amount + 1</code>，第一个值为<code>0</code>，剩余的值为<code>-1</code>（表示无法搭配）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]</span><br></pre></td></tr></table></figure>
-
-<p>之后开始对每一个<code>amount</code>进行判断，<br>$$dp[amount]=\min(dp[amount-coin]+1)$$</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp = [0, 1, 1, 2, 2, 1, 2, 2, 3, 3, 2, 3]</span><br></pre></td></tr></table></figure>
-
-<p><code>dp[-1]</code>就是我们需要的结果</p>
-<p>对每个<code>amount</code>都需进行<code>len(coins)</code>次计算，时间复杂度为$O(n*k)$</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">coinChange</span><span class="params">(self, coins: List[int], amount: int)</span> -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">-1</span>] * (amount + <span class="number">1</span>)</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, amount + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> coin <span class="keyword">in</span> coins:</span><br><span class="line">                <span class="comment"># 因为dp[0] == 0，所以amount和coin相等的时候为dp[amount]==1</span></span><br><span class="line">                <span class="keyword">if</span> i - coin &gt;= <span class="number">0</span> <span class="keyword">and</span> dp[i-coin] != <span class="number">-1</span>:</span><br><span class="line">                    <span class="comment"># 这里需要初始化一下，否则在下面min比较的时候一直是-1</span></span><br><span class="line">                    <span class="keyword">if</span> dp[i] == <span class="number">-1</span>: </span><br><span class="line">                        dp[i] = dp[i-coin] + <span class="number">1</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        dp[i] = min(dp[i], dp[i-coin] + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>执行用时 : 2280 ms, 在Coin Change的Python3提交中击败了30.75% 的用户</p>
-<p>内存消耗 : 13.1 MB, 在Coin Change的Python3提交中击败了96.51% 的用户</p>
-<p>动态规划怎么这么慢？</p>
-
-          
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定不同面额的硬币 <code>coins</code> 和一个总金额 <code>amount</code>。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code>。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/04/coin-change/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -749,35 +690,14 @@ end
 
       
         
-          
-            <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
-<p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [10,9,2,5,3,7,101,18]</span><br><span class="line">输出: 4 </span><br><span class="line">解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。</span><br></pre></td></tr></table></figure>
-
-<p>说明:</p>
-<ul>
-<li>可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。</li>
-<li>你算法的时间复杂度应该为 $O(n^2)$ 。</li>
-</ul>
-<p>进阶: 你能将算法的时间复杂度降低到 $O(n log n)$ 吗?</p>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>这个问题可以分成很多个子问题求解。</p>
-<p>假设数组为[1, 3, 6, 7, 9, 4, 10, 5, 6]</p>
-<p>首先从简单的情况考虑，数组中只有一个数[1]，此时无论怎样最长上升子序列长度都为1，记$f(1)=1$</p>
-<p>如果增加了一个数变为[1, 3]，因为3大于2，所以此时最长上升子序列长度为2，$f(2)=f(1)+1$</p>
-<p>但是如果增加的数是0，即数组为[1, 0]，此时最长上升子序列长度就成了1，因为0不大于之前的任何数，$f(2)=1$</p>
-<p>以此类推，可以发现<br>$$f(N)=\max_{0&lt;i&lt;N} (f(i)+1),\quad if\ nums[N]&gt;nums[i]$$<br>根据该转移方程，我们可以写出之前数组所对应状态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nums = [1, 3, 6, 7, 9, 4, 10, 5, 6]</span><br><span class="line">  dp = [1, 2, 3, 4, 5, 3,  6, 4, 5]</span><br></pre></td></tr></table></figure>
-
-<p>而最长上升子序列的长度就为$\max dp[i] = 6$</p>
-<p>时间复杂度为$O(\frac{n*(n-1)}{2})=O(n^2)$</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> nums == []: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="comment"># 第一个测试数据是空数组 = =</span></span><br><span class="line">        dp = [<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(nums)):</span><br><span class="line">            max_tmp = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(dp)):</span><br><span class="line">                <span class="keyword">if</span> nums[i] &gt; nums[j]:</span><br><span class="line">                    max_tmp = max(max_tmp, dp[j])</span><br><span class="line">            dp.append(max_tmp + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> max(dp)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>执行用时 : 1760 ms, 在Longest Increasing Subsequence的Python3提交中击败了24.38% 的用户</p>
-<p>内存消耗 : 12.9 MB, 在Longest Increasing Subsequence的Python3提交中击败了99.54% 的用户</p>
-<p>咋这么慢捏</p>
-
-          
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/04/longest-increasing-subsequence/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -927,37 +847,15 @@ end
 
       
         
-          
-            <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个整数数组 <code>nums</code> 和一个目标值 <code>target</code>，请你在该数组中找出和为目标值的那 <strong>两个</strong> 整数，并返回他们的数组下标。</p>
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个整数数组 <code>nums</code> 和一个目标值 <code>target</code>，请你在该数组中找出和为目标值的那 <strong>两个</strong> 整数，并返回他们的数组下标。</p>
 <p>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p>
-<p><strong>示例</strong>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">给定 nums = [2, 7, 11, 15], target = 9</span><br><span class="line"></span><br><span class="line">因为 nums[0] + nums[1] = 2 + 7 = 9</span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure>
-
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>有这么几种办法</p>
-<h4 id="1-暴力法"><a href="#1-暴力法" class="headerlink" title="1. 暴力法"></a>1. 暴力法</h4><p>对于数组中的每一个数<code>num</code>，尝试在数组中找到另一个数<code>target-num</code>，时间复杂度$O(n^2)$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        <span class="keyword">for</span> i1, v1 <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            <span class="keyword">for</span> i2, v2 <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">                <span class="comment"># 简单粗暴的判断</span></span><br><span class="line">                <span class="keyword">if</span> i1 != i2 <span class="keyword">and</span> v1 + v2 == target:</span><br><span class="line">                    <span class="keyword">return</span> [i1, i2]</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>28 / 29 个通过测试用例</p>
-<p>状态：<strong>超出时间限制</strong></p>
-<h4 id="2-排序后首尾指针"><a href="#2-排序后首尾指针" class="headerlink" title="2. 排序后首尾指针"></a>2. 排序后首尾指针</h4><p>先将数组排序，之后设置<code>i</code>为第一个数<code>j</code>为最后一个数，计算<code>i+j</code>，如果大于<code>target</code>则说明<code>j</code>太大了需要向前挪一个，如果小于<code>target</code>说明<code>i</code>太小向后挪一个。</p>
-<p>排序时间复杂度$O(nlogn)$，首尾指针扫描一次线性复杂度，最终复杂度$O(nlogn)$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        nums = sorted(enumerate(nums), key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>])</span><br><span class="line">        <span class="comment"># 排序前 nums = [3,2,4]</span></span><br><span class="line">        <span class="comment"># 排序后 nums = [(1, 2), (0, 3), (2, 4)]</span></span><br><span class="line">        <span class="comment"># 就是在排序的时候记住之前的下标</span></span><br><span class="line">        i, j = <span class="number">0</span>, len(nums) - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i &lt; j:</span><br><span class="line">            res = nums[i][<span class="number">1</span>] + nums[j][<span class="number">1</span>]</span><br><span class="line">            <span class="comment"># nums[i][1]取值</span></span><br><span class="line">            <span class="keyword">if</span> res &gt; target:</span><br><span class="line">                j -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> res &lt; target:</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> res == target:</span><br><span class="line">                <span class="keyword">return</span> [nums[i][<span class="number">0</span>], nums[j][<span class="number">0</span>]]</span><br><span class="line">                <span class="comment"># nums[i][0]取排序前的下标</span></span><br></pre></td></tr></table></figure>
-
-<p>怎么这么快。。。</p>
-<hr>
-<p>执行用时 : 56 ms, 在Two Sum的Python3提交中击败了90.92% 的用户</p>
-<p>内存消耗 : 14.6 MB, 在Two Sum的Python3提交中击败了8.70% 的用户</p>
-<h4 id="3-哈希"><a href="#3-哈希" class="headerlink" title="3. 哈希"></a>3. 哈希</h4><p>使用一个哈希表，对于数组中的每个数，计算<code>target-num</code>并在哈希表中查找，如果找到则返回，没有找到就将<code>num</code>存入哈希表。</p>
-<p>哈希表查找可近似为$O(1)$，因为只有一个循环，所以总体时间复杂度为$O(n)$。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        hashmap = &#123;&#125;</span><br><span class="line">        <span class="comment"># hashmap结构：&#123;num: index&#125;</span></span><br><span class="line">        <span class="keyword">for</span> index, num <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            another = target - num</span><br><span class="line">            <span class="keyword">if</span> another <span class="keyword">in</span> hashmap:</span><br><span class="line">                <span class="keyword">return</span> [hashmap[another], index]</span><br><span class="line">            hashmap[num] = index</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>执行用时 : 48 ms, 在Two Sum的Python3提交中击败了97.58% 的用户</p>
-<p>内存消耗 : 14.1 MB, 在Two Sum的Python3提交中击败了50.99% 的用户</p>
-<p>为什么速度差不多呢，为什么用了哈希内存也一样呢</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/03/two-sum/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1107,32 +1005,16 @@ end
 
       
         
-          
-            <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给出两个 <strong>非空</strong> 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 <strong>逆序</strong> 的方式存储的，并且它们的每个节点只能存储 <strong>一位</strong> 数字。</p>
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给出两个 <strong>非空</strong> 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 <strong>逆序</strong> 的方式存储的，并且它们的每个节点只能存储 <strong>一位</strong> 数字。</p>
 <p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
 <p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
-<p>示例：</p>
-<blockquote>
-<p>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)</p>
-<p>输出：7 -&gt; 0 -&gt; 8</p>
-<p>原因：342 + 465 = 807</p>
-</blockquote>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>这题要我们把两个链表表示的数加起来，好处是链表本身是倒序的，所以进位的话直接进到下一位就可以了。</p>
-<p>两个链表加起来有一些情况，首先考虑链表等长的情形：</p>
-<ul>
-<li>[1, 2, 3] + [4, 5, 6] = [5, 7, 9]，此时不存在进位直接加起来即可</li>
-<li>[<strong>6</strong>, 2, 3] + [<strong>4</strong>, 5, 6] = [<strong>0, 8</strong> ,9]，此时低位进位，但不影响总位数</li>
-<li>[1, 2, <strong>3</strong>] + [4, 5, <strong>7</strong>] = [5, 7, <strong>0, 1</strong>]， 这种情况最高位出现了进位导致位数增加了1</li>
-</ul>
-<p>而当两个链表链表长度不一样的时候，也同样会出现这三种情况，此时需要将没有遍历完毕的链表直接连到结果中再计算进位即可。</p>
-<p>而对于进位的计算，可以选择增加一个<code>carry</code>变量来记录，也可以选择在相加完毕后重头处理进位。</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addTwoNumbers</span><span class="params">(self, l1: ListNode, l2: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        node = ListNode(<span class="literal">None</span>)</span><br><span class="line">        res = node</span><br><span class="line">        <span class="comment"># 直接计算两个链表对应值的和，先不管进位问题</span></span><br><span class="line">        <span class="keyword">while</span> l1 <span class="keyword">and</span> l2:</span><br><span class="line">            node.next = ListNode(l1.val + l2.val)</span><br><span class="line">            l1, l2 = l1.next, l2.next</span><br><span class="line">            node = node.next</span><br><span class="line">        <span class="comment"># 如果还有某个链表有剩余则加在后面</span></span><br><span class="line">        <span class="keyword">if</span> l1:</span><br><span class="line">            node.next = l1</span><br><span class="line">        <span class="keyword">if</span> l2:</span><br><span class="line">            node.next = l2</span><br><span class="line">        <span class="comment"># 回到最初的起点</span></span><br><span class="line">        node = res.next</span><br><span class="line">        <span class="comment"># 重新遍历整个链表，如果遇到节点值&gt;=10的情况则将其-10，后一位+1</span></span><br><span class="line">        <span class="keyword">while</span> node:</span><br><span class="line">            <span class="keyword">if</span> node.val &gt;= <span class="number">10</span>:</span><br><span class="line">                node.val -= <span class="number">10</span></span><br><span class="line">                <span class="comment"># 如果是最后一位出现进位那么在之后新建一个值为1的节点</span></span><br><span class="line">                <span class="comment"># [5] + [5]的这个例子一开始没有考虑到</span></span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> node.next:</span><br><span class="line">                    node.next = ListNode(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    node.next.val += <span class="number">1</span></span><br><span class="line">            node = node.next</span><br><span class="line">        <span class="keyword">return</span> res.next</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>执行用时 : 100 ms, 在Add Two Numbers的Python3提交中击败了92.13% 的用户</p>
-<p>内存消耗 : 13.1 MB, 在Add Two Numbers的Python3提交中击败了92.11% 的用户</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/03/add-two-numbers/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1282,8 +1164,7 @@ end
 
       
         
-          
-            <h2 id="ShadowsocksR下载"><a href="#ShadowsocksR下载" class="headerlink" title="ShadowsocksR下载"></a>ShadowsocksR下载</h2><a href="/2019/06/02/ss-download/ShadowsocksR-win-4.9.0.zip" title="Windows 版">Windows 版</a>
+          <h2 id="ShadowsocksR下载"><a href="#ShadowsocksR下载" class="headerlink" title="ShadowsocksR下载"></a>ShadowsocksR下载</h2><a href="/2019/06/02/ss-download/ShadowsocksR-win-4.9.0.zip" title="Windows 版">Windows 版</a>
 <br>
 <a href="/2019/06/02/ss-download/ShadowsocksX-NG-R8.dmg" title="OS X 版">OS X 版</a>
 <br>
@@ -1291,28 +1172,13 @@ end
 
 
 <p>下面的服务器截至2019/6/2可用</p>
-<h2 id="来自Google-Cloud的"><a href="#来自Google-Cloud的" class="headerlink" title="来自Google Cloud的"></a>来自Google Cloud的</h2><p>台北滴服务器，在武汉大学速度很快</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssr://MzUuMTg5LjE3Mi4xOTQ6MTIyNjc6YXV0aF9jaGFpbl9hOmNoYWNoYTIwLWlldGY6dGxzMS4yX3RpY2tldF9hdXRoOk1USXpORFUyLz9vYmZzcGFyYW09JnByb3RvcGFyYW09JnJlbWFya3M9WjI5dloyeGxMWE56Y2cmZ3JvdXA9</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>地址：35.189.172.194:12267</p>
-<p>加密方法： chacha20-ietf</p>
-<p>密码： 123456</p>
-<p>协议： auth_chain_a</p>
-<p>混淆： tls1.2_ticket_auth</p>
-</blockquote>
-<h2 id="来自Vultr的"><a href="#来自Vultr的" class="headerlink" title="来自Vultr的"></a>来自Vultr的</h2><p>硅谷的服务器，速度一般</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssr://MTQ5LjI4LjIxMi4xNjc6MTA0MTk6YXV0aF9jaGFpbl9hOmNoYWNoYTIwLWlldGY6dGxzMS4yX3RpY2tldF9hdXRoOk1USXpORFUyLz9vYmZzcGFyYW09JnByb3RvcGFyYW09JnJlbWFya3M9ZG5Wc2RISXRjMmxzYVdOdmJpMTJZV3hzWlhrJmdyb3VwPQ</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>地址：149.28.212.167:10419</p>
-<p>加密方法： chacha20-ietf</p>
-<p>密码： 123456</p>
-<p>协议： auth_chain_a</p>
-<p>混淆： tls1.2_ticket_auth</p>
-</blockquote>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/02/ss-download/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="木有粗面">
 <meta property="og:description" content="题目描述运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。 获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。 写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-07T17:27:15.473Z">
+<meta property="og:updated_time" content="2019-06-08T09:15:20.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Leetcode 146. LRU缓存机制">
 <meta name="twitter:description" content="题目描述运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。 获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。 写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少">
@@ -375,6 +375,7 @@
 <p>写入数据 <code>put(key, value)</code> - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
 <p>进阶:</p>
 <p>你是否可以在$O(1)$ 时间复杂度内完成这两种操作？</p>
+<a id="more"></a>
 <p>示例:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cache = LRUCache(2)</span><br><span class="line"></span><br><span class="line">cache.put(1, 1);</span><br><span class="line">cache.put(2, 2);</span><br><span class="line">cache.get(1);       // 返回  1</span><br><span class="line">cache.put(3, 3);    // 该操作会使得密钥 2 作废</span><br><span class="line">cache.get(2);       // 返回 -1 (未找到)</span><br><span class="line">cache.put(4, 4);    // 该操作会使得密钥 1 作废</span><br><span class="line">cache.get(1);       // 返回 -1 (未找到)</span><br><span class="line">cache.get(3);       // 返回  3</span><br><span class="line">cache.get(4);       // 返回  4</span><br></pre></td></tr></table></figure>
 

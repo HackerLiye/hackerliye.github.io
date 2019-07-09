@@ -269,6 +269,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/max-points-on-a-line/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李叶">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木有粗面">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/09/max-points-on-a-line/" itemprop="url">Leetcode 149. 直线上最多的点数</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T21:11:56+08:00">
+                2019-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  869
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个二维平面，平面上有 n 个点，求最多有多少个点在同一条直线上。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/09/max-points-on-a-line/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/07/permutations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -529,40 +686,15 @@
 
       
         
-          
-            <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个二维的矩阵，包含 <code>&#39;X&#39;</code> 和 <code>&#39;O&#39;</code>（字母 O）。</p>
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个二维的矩阵，包含 <code>&#39;X&#39;</code> 和 <code>&#39;O&#39;</code>（字母 O）。</p>
 <p>找到所有被 <code>&#39;X&#39;</code> 围绕的区域，并将这些区域里所有的 <code>&#39;O&#39;</code> 用 <code>&#39;X&#39;</code> 填充。</p>
-<p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X X X X</span><br><span class="line">X O O X</span><br><span class="line">X X O X</span><br><span class="line">X O X X</span><br></pre></td></tr></table></figure>
-
-<p>运行你的函数后，矩阵变为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X X X X</span><br><span class="line">X X X X</span><br><span class="line">X X X X</span><br><span class="line">X O X X</span><br></pre></td></tr></table></figure>
-
-<p>解释:</p>
-<p>被围绕的区间不会存在于边界上，换句话说，任何边界上的 <code>&#39;O&#39;</code> 都不会被填充为 <code>&#39;X&#39;</code>。 任何不在边界上，或不与边界上的 <code>&#39;O&#39;</code> 相连的 <code>&#39;O&#39;</code> 最终都会被填充为 <code>&#39;X&#39;</code>。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。</p>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>本题可以用DFS（深度优先搜索）解决。</p>
-<p>找到所有被<code>X</code>围绕的区域不容易，但是其等价于找到所有没有没有被<code>X</code>围绕的区域（连接边界的区域），这样就可以从边界上的<code>O</code>开始进行深度优先搜索，</p>
-<p>举个例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X X X X</span><br><span class="line">X X O X</span><br><span class="line">X O X X</span><br><span class="line">X O X X</span><br></pre></td></tr></table></figure>
-
-<p>对于上面这张图的边界，只有第四行第二列的内容是<code>O</code>，我们对其进行DFS，即<code>DFS(3,1)</code><br>首先将它本身改为#</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X X X X</span><br><span class="line">X X O X</span><br><span class="line">X O X X</span><br><span class="line">X # X X</span><br></pre></td></tr></table></figure>
-
-<p>之后对该位置的上下左右进行搜索，即分别尝试<code>DFS(2,1)</code>，<code>DFS(4,1)</code>，<code>DFS(3,0)</code>，<code>DFS(3,2)</code>，如果越界或者内容不是<code>O</code>则停止搜索。</p>
-<p>因为此位置左右是X，下面超出数组下边界，只有上面是<code>O</code>，所以继续进行<code>DFS(2,1)</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X X X X</span><br><span class="line">X X O X</span><br><span class="line">X # X X</span><br><span class="line">X # X X</span><br></pre></td></tr></table></figure>
-
-<p>和之前一样，先将其本身改为#，之后上下左右进行DFS，而对于此坐标上下左右都不是<code>O</code>，所以搜索结束。</p>
-<p>最后遍历全图，将所有的#改为<code>O</code>，所有的<code>O</code>改为<code>X</code>即可。</p>
-<p>最终结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X X X X</span><br><span class="line">X X X X</span><br><span class="line">X O X X</span><br><span class="line">X O X X</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">solve</span><span class="params">(self, board: List[List[str]])</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Do not return anything, modify board in-place instead.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 如果是空数组，直接返回</span></span><br><span class="line">        <span class="comment"># Leetcode总搞这种边边角角的输入</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> board: <span class="keyword">return</span></span><br><span class="line">        <span class="comment"># 计算数组长宽</span></span><br><span class="line">        row = len(board)</span><br><span class="line">        col = len(board[<span class="number">0</span>])</span><br><span class="line">        <span class="comment"># 如果长度或者宽度中一个小于3的话也不用算了，直接返回</span></span><br><span class="line">        <span class="keyword">if</span> row &lt; <span class="number">3</span> <span class="keyword">or</span> col &lt; <span class="number">3</span>: <span class="keyword">return</span></span><br><span class="line">        <span class="comment"># DFS函数</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(i, j)</span>:</span></span><br><span class="line">        <span class="comment"># 如果i，j中有一个越界或者遇到了X则不继续扫描</span></span><br><span class="line">            <span class="keyword">if</span> i &lt; <span class="number">0</span> <span class="keyword">or</span> j &lt; <span class="number">0</span> <span class="keyword">or</span> i &gt;= row <span class="keyword">or</span> j &gt;= col <span class="keyword">or</span> board[i][j] != <span class="string">'O'</span>:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="comment"># 否则把数组中的O变成#，意思是这个O和边缘是连通的</span></span><br><span class="line">            board[i][j] = <span class="string">'#'</span></span><br><span class="line">            <span class="comment"># 之后从当前坐标开始上下左右进行递归搜索</span></span><br><span class="line">            dfs(i - <span class="number">1</span>, j)</span><br><span class="line">            dfs(i + <span class="number">1</span>, j)</span><br><span class="line">            dfs(i, j - <span class="number">1</span>)</span><br><span class="line">            dfs(i, j + <span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(row):</span><br><span class="line">        <span class="comment"># 搜索第一行和最后一行</span></span><br><span class="line">            dfs(i, <span class="number">0</span>)</span><br><span class="line">            dfs(i, col - <span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(col):</span><br><span class="line">        <span class="comment"># 搜索第一列和最后一列</span></span><br><span class="line">            dfs(<span class="number">0</span>, i)</span><br><span class="line">            dfs(row - <span class="number">1</span>, i)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 全部搜索完毕后：</span></span><br><span class="line">        <span class="comment"># X X X X </span></span><br><span class="line">        <span class="comment"># X X O X</span></span><br><span class="line">        <span class="comment"># X O X X</span></span><br><span class="line">        <span class="comment"># X O X X</span></span><br><span class="line">        <span class="comment"># 变为：    </span></span><br><span class="line">        <span class="comment"># X X X X</span></span><br><span class="line">        <span class="comment"># X X O X</span></span><br><span class="line">        <span class="comment"># X # X X</span></span><br><span class="line">        <span class="comment"># X # X X</span></span><br><span class="line">        <span class="comment"># 之后再将所有的#变成O，O变成X就可以了</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, row):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, col):</span><br><span class="line">                <span class="keyword">if</span> board[i][j] == <span class="string">'O'</span>:</span><br><span class="line">                    board[i][j] = <span class="string">'X'</span></span><br><span class="line">                <span class="keyword">if</span> board[i][j] == <span class="string">'#'</span>:</span><br><span class="line">                    board[i][j] = <span class="string">'O'</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>执行用时 :140 ms, 在所有Python3提交中击败了98.19%的用户<br>内存消耗 :14.6 MB, 在所有Python3提交中击败了74.24%的用户</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/15/surrounded-regions/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1708,173 +1840,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/02/ss-download/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李叶">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="木有粗面">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/02/ss-download/" itemprop="url">科学上网</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-02T15:25:26+08:00">
-                2019-06-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  107
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="ShadowsocksR下载"><a href="#ShadowsocksR下载" class="headerlink" title="ShadowsocksR下载"></a>ShadowsocksR下载</h2><a href="/2019/06/02/ss-download/ShadowsocksR-win-4.9.0.zip" title="Windows 版">Windows 版</a>
-<br>
-<a href="/2019/06/02/ss-download/ShadowsocksX-NG-R8.dmg" title="OS X 版">OS X 版</a>
-<br>
-<a href="/2019/06/02/ss-download/shadowsocksr-android-3.5.4.apk" title="安卓版">安卓版</a>
-
-
-<p>下面的服务器截至2019/6/10可用</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/02/ss-download/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1918,7 +1890,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

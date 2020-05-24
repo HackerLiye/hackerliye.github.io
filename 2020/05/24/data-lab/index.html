@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="木有粗面">
 <meta property="og:description" content="1.bitXor 题目要求：使用~和&amp;amp;实现x^y 允许操作：~ &amp;amp; 操作数限制：14 分值：1  第一题使用not以及and来实现xor。从书中例题可以知道x^y=(x&amp;amp;~y)|(~x&amp;amp;y)，但是这题不能用or。 观察(x&amp;amp;~y)，发现只有x=1且y=0时为1，对于(~x&amp;amp;y)，x=0且y=1时为1    x&amp;amp;~y 1 0    1 0 1">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-24T06:19:01.809Z">
+<meta property="og:updated_time" content="2020-05-24T13:11:34.841Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP数据实验">
 <meta name="twitter:description" content="1.bitXor 题目要求：使用~和&amp;amp;实现x^y 允许操作：~ &amp;amp; 操作数限制：14 分值：1  第一题使用not以及and来实现xor。从书中例题可以知道x^y=(x&amp;amp;~y)|(~x&amp;amp;y)，但是这题不能用or。 观察(x&amp;amp;~y)，发现只有x=1且y=0时为1，对于(~x&amp;amp;y)，x=0且y=1时为1    x&amp;amp;~y 1 0    1 0 1">
@@ -332,7 +332,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  339
+                  544
                 </span>
               
 
@@ -348,7 +348,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -461,7 +461,13 @@
 <li>操作数限制：14</li>
 <li>分值：1</li>
 </ul>
-
+<h2 id="floatFloat2Int"><a href="#floatFloat2Int" class="headerlink" title="floatFloat2Int"></a>floatFloat2Int</h2><ul>
+<li>题目要求：将输入的浮点数用整型表示，如果输出超出范围（包括NaN或是Infinity）返回0x80000000u</li>
+<li>允许操作：所有的，包括|| &amp;&amp; if while</li>
+<li>操作数限制：30</li>
+<li>分值：4</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">floatFloat2Int</span><span class="params">(<span class="keyword">unsigned</span> uf)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// getting sign, exponent and fraction from the float number</span></span><br><span class="line">  <span class="keyword">int</span> sign = uf &amp; <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">int</span> <span class="built_in">exp</span> = (uf &amp; <span class="number">0x7f800000</span>) &gt;&gt; <span class="number">23</span>;</span><br><span class="line">  <span class="keyword">int</span> bias = <span class="built_in">exp</span> - <span class="number">127</span>;</span><br><span class="line">  <span class="keyword">int</span> frac = uf &amp; <span class="number">0x007fffff</span>;</span><br><span class="line">  <span class="keyword">int</span> res;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">exp</span> == <span class="number">255</span> || bias &gt; <span class="number">30</span>)&#123;</span><br><span class="line">    <span class="comment">// if the number is infinity, NaN (bias is 255) or too big for integer (exp &gt; 30)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0x80000000</span>u;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">exp</span> == <span class="number">0</span> || bias &lt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">// if the number is smaller than 0, return 0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// add back the lost 1 to the front of fraction</span></span><br><span class="line">  frac = frac | (<span class="number">1</span> &lt;&lt; <span class="number">23</span>);</span><br><span class="line">  <span class="comment">// result is fraction right shift 23-bias times</span></span><br><span class="line">  res = frac &gt;&gt; (<span class="number">23</span> - bias);</span><br><span class="line">  <span class="comment">// if the sign of float is 1, need to return -res</span></span><br><span class="line">  <span class="keyword">if</span>(sign)&#123;</span><br><span class="line">    res = ~res+<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// for debug purpose</span></span><br><span class="line">  <span class="comment">//printf("\n%x\t%x\t%x\n", sign, bias, res);</span></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -632,7 +638,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-bitXor"><span class="nav-number">1.</span> <span class="nav-text">1.bitXor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-tmin"><span class="nav-number">2.</span> <span class="nav-text">2.tmin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-isTmax"><span class="nav-number">3.</span> <span class="nav-text">3.isTmax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-bitXor-1"><span class="nav-number">4.</span> <span class="nav-text">1.bitXor</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-bitXor"><span class="nav-number">1.</span> <span class="nav-text">1.bitXor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-tmin"><span class="nav-number">2.</span> <span class="nav-text">2.tmin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-isTmax"><span class="nav-number">3.</span> <span class="nav-text">3.isTmax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-bitXor-1"><span class="nav-number">4.</span> <span class="nav-text">1.bitXor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#floatFloat2Int"><span class="nav-number">5.</span> <span class="nav-text">floatFloat2Int</span></a></li></ol></div>
             
 
           </div>

@@ -86,17 +86,17 @@
 
 
 
-<meta name="description" content="Stay Hungry, Stay Foolish">
+<meta name="description" content="1.bitXor 题目要求：使用~和&amp;amp;实现x^y 允许操作：~ &amp;amp; 操作数限制：14 分值：1  第一题使用not以及and来实现xor。从书中例题可以知道x^y=(x&amp;amp;~y)|(~x&amp;amp;y)，但是这题不能用or。 观察(x&amp;amp;~y)，发现只有x=1且y=0时为1，对于(~x&amp;amp;y)，x=0且y=1时为1    x&amp;amp;~y 1 0    1 0 1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="data-lab">
+<meta property="og:title" content="CSAPP数据实验">
 <meta property="og:url" content="http://yoursite.com/2020/05/24/data-lab/index.html">
 <meta property="og:site_name" content="木有粗面">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="1.bitXor 题目要求：使用~和&amp;amp;实现x^y 允许操作：~ &amp;amp; 操作数限制：14 分值：1  第一题使用not以及and来实现xor。从书中例题可以知道x^y=(x&amp;amp;~y)|(~x&amp;amp;y)，但是这题不能用or。 观察(x&amp;amp;~y)，发现只有x=1且y=0时为1，对于(~x&amp;amp;y)，x=0且y=1时为1    x&amp;amp;~y 1 0    1 0 1">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-24T06:16:02.943Z">
+<meta property="og:updated_time" content="2020-05-24T06:19:01.809Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="data-lab">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="CSAPP数据实验">
+<meta name="twitter:description" content="1.bitXor 题目要求：使用~和&amp;amp;实现x^y 允许操作：~ &amp;amp; 操作数限制：14 分值：1  第一题使用not以及and来实现xor。从书中例题可以知道x^y=(x&amp;amp;~y)|(~x&amp;amp;y)，但是这题不能用or。 观察(x&amp;amp;~y)，发现只有x=1且y=0时为1，对于(~x&amp;amp;y)，x=0且y=1时为1    x&amp;amp;~y 1 0    1 0 1">
 
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <title>data-lab | 木有粗面</title>
+  <title>CSAPP数据实验 | 木有粗面</title>
   
 
 
@@ -286,7 +286,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">data-lab</h2>
+          <h2 class="post-title" itemprop="name headline">CSAPP数据实验</h2>
         
 
         <div class="post-meta">
@@ -332,7 +332,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  339
                 </span>
               
 
@@ -369,7 +369,99 @@
       
 
       
-        
+        <h2 id="1-bitXor"><a href="#1-bitXor" class="headerlink" title="1.bitXor"></a>1.bitXor</h2><ul>
+<li>题目要求：使用~和&amp;实现x^y</li>
+<li>允许操作：<code>~ &amp;</code></li>
+<li>操作数限制：14</li>
+<li>分值：1</li>
+</ul>
+<p>第一题使用not以及and来实现xor。从书中例题可以知道<code>x^y=(x&amp;~y)|(~x&amp;y)</code>，但是这题不能用or。</p>
+<p>观察<code>(x&amp;~y)</code>，发现只有x=1且y=0时为1，对于<code>(~x&amp;y)</code>，x=0且y=1时为1</p>
+<table>
+<thead>
+<tr>
+<th>x&amp;~y</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>~x&amp;y</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>将这两个取反得<br>| <del>(x&amp;</del>y) | 1 | 0 |<br>| ——- | - | - |<br>| 1       | 1 | 0 |<br>| 0       | 1 | 1 |</p>
+<table>
+<thead>
+<tr>
+<th><del>(</del>x&amp;y)</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>此时两个结果做and再not即为xor的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int bitXor(int x, int y) &#123;</span><br><span class="line">  return ~(~(x&amp;~y)&amp;~(~x&amp;y));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-tmin"><a href="#2-tmin" class="headerlink" title="2.tmin"></a>2.tmin</h2><ul>
+<li>题目要求：返回最小二进制补码整数</li>
+<li>允许操作：<code>! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</code></li>
+<li>操作数限制：4</li>
+<li>分值：1</li>
+</ul>
+<p>最小二进制补码整数Tmin就是<code>10000000 00000000 00000000 00000000</code>，十进制对应就是的-217483648。</p>
+<p>把1左移31位就成了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int tmin(void) &#123;</span><br><span class="line">  return 1&lt;&lt;31;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-isTmax"><a href="#3-isTmax" class="headerlink" title="3.isTmax"></a>3.isTmax</h2><ul>
+<li>题目要求：如果x是最大二进制补码整数返回1，否则返回0</li>
+<li>允许操作：<code>! ~ &amp; ^ | +</code></li>
+<li>操作数限制：10</li>
+<li>分值：1</li>
+</ul>
+<p>和上一题类似，最大二进制补码整数Tmax的值为 <code>01111111 11111111 11111111 11111111</code>，</p>
+<h2 id="1-bitXor-1"><a href="#1-bitXor-1" class="headerlink" title="1.bitXor"></a>1.bitXor</h2><ul>
+<li>题目要求：使用~和&amp;实现x^y</li>
+<li>允许操作：~ &amp;</li>
+<li>操作数限制：14</li>
+<li>分值：1</li>
+</ul>
+
       
     </div>
     
@@ -453,8 +545,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,6 +622,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-bitXor"><span class="nav-number">1.</span> <span class="nav-text">1.bitXor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-tmin"><span class="nav-number">2.</span> <span class="nav-text">2.tmin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-isTmax"><span class="nav-number">3.</span> <span class="nav-text">3.isTmax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-bitXor-1"><span class="nav-number">4.</span> <span class="nav-text">1.bitXor</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

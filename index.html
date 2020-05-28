@@ -334,7 +334,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  544
+                  1k
                 </span>
               
 
@@ -350,7 +350,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  4
                 </span>
               
             </div>
@@ -384,7 +384,7 @@
 <table>
 <thead>
 <tr>
-<th>x&amp;~y</th>
+<th><code>x&amp;~y</code></th>
 <th>1</th>
 <th>0</th>
 </tr>
@@ -440,7 +440,7 @@
 </tr>
 </tbody></table>
 <p>此时两个结果做and再not即为xor的结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int bitXor(int x, int y) &#123;</span><br><span class="line">  return ~(~(x&amp;~y)&amp;~(~x&amp;y));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bitXor</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> ~(~(x&amp;~y)&amp;~(~x&amp;y));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-tmin"><a href="#2-tmin" class="headerlink" title="2.tmin"></a>2.tmin</h2><ul>
 <li>题目要求：返回最小二进制补码整数</li>
@@ -450,7 +450,7 @@
 </ul>
 <p>最小二进制补码整数Tmin就是<code>10000000 00000000 00000000 00000000</code>，十进制对应就是的-217483648。</p>
 <p>把1左移31位就成了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int tmin(void) &#123;</span><br><span class="line">  return 1&lt;&lt;31;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">tmin</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;<span class="number">31</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="3-isTmax"><a href="#3-isTmax" class="headerlink" title="3.isTmax"></a>3.isTmax</h2><ul>
 <li>题目要求：如果x是最大二进制补码整数返回1，否则返回0</li>
@@ -458,13 +458,39 @@
 <li>操作数限制：10</li>
 <li>分值：1</li>
 </ul>
-<p>和上一题类似，最大二进制补码整数Tmax的值为 <code>01111111 11111111 11111111 11111111</code>，</p>
-<h2 id="1-bitXor-1"><a href="#1-bitXor-1" class="headerlink" title="1.bitXor"></a>1.bitXor</h2><ul>
-<li>题目要求：使用~和&amp;实现x^y</li>
-<li>允许操作：~ &amp;</li>
-<li>操作数限制：14</li>
-<li>分值：1</li>
+<p>和上一题类似，最大二进制补码整数Tmax的值为 <code>01111111 11111111 11111111 11111111</code>，对于这个数发现对其加一和取反的结果是一样的，都是Tmin，于是写出了<code>!(~x ^ (x + 1))</code>，想通过异或判断这两个数是否一样。但是测试的时候发现<code>0xffffffff</code>也有这个性质，只好在后面加一个判断看是否为全1.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">isTmax</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> !(~x ^ (x + <span class="number">1</span>)) &amp; !!~x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-allOddBits"><a href="#4-allOddBits" class="headerlink" title="4.allOddBits"></a>4.allOddBits</h2><ul>
+<li>题目要求：判断所有奇数位是否为1（最低位为0，最高位31），如果是返回1否则返回0。</li>
+<li>例：allOddBits(0xFFFFFFFD) = 0, allOddBits(0xAAAAAAAA) = 1</li>
+<li>允许操作：! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</li>
+<li>操作数限制：12</li>
+<li>分值：2</li>
 </ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">allOddBits</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> res;</span><br><span class="line">  x = x &amp; (x&gt;&gt;<span class="number">8</span>) &amp; (x &gt;&gt; <span class="number">16</span>) &amp; (x &gt;&gt; <span class="number">24</span>);</span><br><span class="line">  res = !(~(x | <span class="number">0x55</span>) &amp; <span class="number">0xff</span>);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-negate"><a href="#5-negate" class="headerlink" title="5.negate"></a>5.negate</h2><ul>
+<li>题目要求：返回-x</li>
+<li>例：negate(1) = -1</li>
+<li>允许操作：! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</li>
+<li>操作数限制：5</li>
+<li>分值：2</li>
+</ul>
+<p>此题使用观察法得出结果。设x=7则其二进制补码为0000 0111，-7的二进制补码为1111 1001。可以发现这两个数除了最后一位都是反过来的，要想得到一个数的相反数对其补码取反再加一就行了。这也是一个补码的性质。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">negate</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> ~x+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-conditional"><a href="#7-conditional" class="headerlink" title="7.conditional"></a>7.conditional</h2><ul>
+<li>题目要求：返回x?y:z的值</li>
+<li>例：conditional(2,4,5) = 4</li>
+<li>允许操作：! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</li>
+<li>操作数限制：16</li>
+<li>分值：3</li>
+</ul>
+<p>要得到x?y:z的值首先要判断x是0还是1，这就要用到!!操作符来两次取反将x变为0或1。之后将x扩展到所有32位，我用的方法是先左移32位使其成为最高位之后再右移32位（算术右移）。这样如果原先x为0则获得0，如果不为0则获得0xffffffff。</p>
+<p>因为x为1的话返回y，为0返回z，可以通过将y与mask进行与操作，z与~x进行与操作来得到选择的效果，最后将两个结果合并就是最后的结果了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">conditional</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> z)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> x1 = !!x;</span><br><span class="line">  <span class="keyword">int</span> mask = x1 &lt;&lt; <span class="number">31</span> &gt;&gt; <span class="number">31</span>;</span><br><span class="line">  <span class="keyword">int</span> res = (y&amp;mask)|(z&amp;~mask);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="floatFloat2Int"><a href="#floatFloat2Int" class="headerlink" title="floatFloat2Int"></a>floatFloat2Int</h2><ul>
 <li>题目要求：将输入的浮点数用整型表示，如果输出超出范围（包括NaN或是Infinity）返回0x80000000u</li>
 <li>允许操作：所有的，包括|| &amp;&amp; if while</li>

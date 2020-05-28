@@ -334,7 +334,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1k
+                  1.5k
                 </span>
               
 
@@ -350,7 +350,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  6
                 </span>
               
             </div>
@@ -380,45 +380,7 @@
 <li>分值：1</li>
 </ul>
 <p>第一题使用not以及and来实现xor。从书中例题可以知道<code>x^y=(x&amp;~y)|(~x&amp;y)</code>，但是这题不能用or。</p>
-<p>观察<code>(x&amp;~y)</code>，发现只有x=1且y=0时为1，对于<code>(~x&amp;y)</code>，x=0且y=1时为1</p>
-<table>
-<thead>
-<tr>
-<th><code>x&amp;~y</code></th>
-<th>1</th>
-<th>0</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>~x&amp;y</th>
-<th>1</th>
-<th>0</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-</tr>
-</tbody></table>
+<p>观察<code>(x&amp;~y)</code>，发现只有x=1且y=0时为1，对于<code>(~x&amp;y)</code>，x=0且y=1时为1。</p>
 <p>将这两个取反得<br>| <del>(x&amp;</del>y) | 1 | 0 |<br>| ——- | - | - |<br>| 1       | 1 | 0 |<br>| 0       | 1 | 1 |</p>
 <table>
 <thead>
@@ -491,13 +453,34 @@
 <p>因为x为1的话返回y，为0返回z，可以通过将y与mask进行与操作，z与~x进行与操作来得到选择的效果，最后将两个结果合并就是最后的结果了。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">conditional</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> z)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> x1 = !!x;</span><br><span class="line">  <span class="keyword">int</span> mask = x1 &lt;&lt; <span class="number">31</span> &gt;&gt; <span class="number">31</span>;</span><br><span class="line">  <span class="keyword">int</span> res = (y&amp;mask)|(z&amp;~mask);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="floatScale2"><a href="#floatScale2" class="headerlink" title="floatScale2"></a>floatScale2</h2><ul>
+<li>题目要求：返回2*f的浮点数表示，当参数为NaN时直接返回参数</li>
+<li>允许操作：所有的，包括|| &amp;&amp; if while</li>
+<li>操作数限制：30</li>
+<li>分值：4</li>
+</ul>
+<p>对于规格化浮点数，其表示为2^exp<em>frac，2</em>f即2^(exp+1)*frac，将exp部分加一即可。</p>
+<p>对于规格化浮点数，因为exp已经确定不能改变，所以要想将其乘以2只要将frac乘以2，即左移一位即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="title">floatScale2</span><span class="params">(<span class="keyword">unsigned</span> uf)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> sign = uf &amp; <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">int</span> <span class="built_in">exp</span> = (uf &amp; <span class="number">0x7f800000</span>) &gt;&gt; <span class="number">23</span>;</span><br><span class="line">  <span class="keyword">int</span> frac = uf &amp; <span class="number">0x007fffff</span>;</span><br><span class="line">  <span class="keyword">int</span> res, masked;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">exp</span> == <span class="number">255</span>)&#123;</span><br><span class="line">    <span class="comment">// if number is NaN or Infinity</span></span><br><span class="line">    <span class="keyword">return</span> uf;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">exp</span> == <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">// for denormal numbers, *2 means left shift frac once</span></span><br><span class="line">    frac = frac &lt;&lt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> frac | sign;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// for normal numbers, *2 means left add one to exp</span></span><br><span class="line">  <span class="built_in">exp</span> = <span class="built_in">exp</span> + <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// clear original number's exp area and then apply new exp in</span></span><br><span class="line">  masked = uf &amp; <span class="number">0x807fffff</span>;</span><br><span class="line">  res = (<span class="built_in">exp</span> &lt;&lt; <span class="number">23</span>) | masked;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="floatFloat2Int"><a href="#floatFloat2Int" class="headerlink" title="floatFloat2Int"></a>floatFloat2Int</h2><ul>
 <li>题目要求：将输入的浮点数用整型表示，如果输出超出范围（包括NaN或是Infinity）返回0x80000000u</li>
 <li>允许操作：所有的，包括|| &amp;&amp; if while</li>
 <li>操作数限制：30</li>
 <li>分值：4</li>
 </ul>
+<p>首先从输入的浮点数中获取sign，exp和frac，然后根据这些信息来算出对应的整数。</p>
+<p>主要思想为通过exp-127获得bias，就是frac乘以的2的次方数，如果bias为1就是乘以二，以此类推。通过将frac右移23-bias位即可获得对应的整数值。</p>
+<p>最后如果sign为1还需要将结果变为负数。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">floatFloat2Int</span><span class="params">(<span class="keyword">unsigned</span> uf)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// getting sign, exponent and fraction from the float number</span></span><br><span class="line">  <span class="keyword">int</span> sign = uf &amp; <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">int</span> <span class="built_in">exp</span> = (uf &amp; <span class="number">0x7f800000</span>) &gt;&gt; <span class="number">23</span>;</span><br><span class="line">  <span class="keyword">int</span> bias = <span class="built_in">exp</span> - <span class="number">127</span>;</span><br><span class="line">  <span class="keyword">int</span> frac = uf &amp; <span class="number">0x007fffff</span>;</span><br><span class="line">  <span class="keyword">int</span> res;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">exp</span> == <span class="number">255</span> || bias &gt; <span class="number">30</span>)&#123;</span><br><span class="line">    <span class="comment">// if the number is infinity, NaN (bias is 255) or too big for integer (exp &gt; 30)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0x80000000</span>u;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">exp</span> == <span class="number">0</span> || bias &lt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">// if the number is smaller than 0, return 0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// add back the lost 1 to the front of fraction</span></span><br><span class="line">  frac = frac | (<span class="number">1</span> &lt;&lt; <span class="number">23</span>);</span><br><span class="line">  <span class="comment">// result is fraction right shift 23-bias times</span></span><br><span class="line">  res = frac &gt;&gt; (<span class="number">23</span> - bias);</span><br><span class="line">  <span class="comment">// if the sign of float is 1, need to return -res</span></span><br><span class="line">  <span class="keyword">if</span>(sign)&#123;</span><br><span class="line">    res = ~res+<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// for debug purpose</span></span><br><span class="line">  <span class="comment">//printf("\n%x\t%x\t%x\n", sign, bias, res);</span></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="floatPower2"><a href="#floatPower2" class="headerlink" title="floatPower2"></a>floatPower2</h2><ul>
+<li>题目要求：返回2.0^x的浮点数表示，如果数太小不能用非规格化表示返回0，如果太大返回+INF</li>
+<li>允许操作：所有的，包括|| &amp;&amp; if while</li>
+<li>操作数限制：30</li>
+<li>分值：4<br>因为x是整数，所以2的x次方用浮点数表示就是exp部分为x。因为规格化浮点数只能表示到2^127，所以x比127大则返回+INF。又因为非规格化浮点数只能表示到2^-126，所以x&lt;-126直接返回0。剩余的情况就是能表示的了，将x+bias（127）左移23为成为exp返回即可。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="title">floatPower2</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> inf = <span class="number">0x7f800000</span>;</span><br><span class="line">  <span class="keyword">int</span> <span class="built_in">exp</span>, res;</span><br><span class="line">  <span class="keyword">if</span>(x &gt; <span class="number">127</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> inf;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(x &lt; <span class="number">-126</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">exp</span> = x+<span class="number">127</span>;</span><br><span class="line">  res = <span class="built_in">exp</span> &lt;&lt; <span class="number">23</span>;</span><br><span class="line">  <span class="comment">//printf("\n%x\t%x\n", exp, res);</span></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       

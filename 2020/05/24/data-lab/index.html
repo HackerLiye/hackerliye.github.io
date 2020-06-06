@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="木有粗面">
 <meta property="og:description" content="1.bitXor 题目要求：使用~和&amp;amp;实现x^y 允许操作：~ &amp;amp; 操作数限制：14 分值：1  第一题使用not以及and来实现xor。从书中例题可以知道x^y=(x&amp;amp;~y)|(~x&amp;amp;y)，但是这题不能用or。 观察(x&amp;amp;~y)，发现只有x=1且y=0时为1，对于(~x&amp;amp;y)，x=0且y=1时为1。 将这两个取反得| (x&amp;amp;y) | 1 |">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-28T11:49:34.889Z">
+<meta property="og:updated_time" content="2020-05-28T12:16:55.918Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP数据实验">
 <meta name="twitter:description" content="1.bitXor 题目要求：使用~和&amp;amp;实现x^y 允许操作：~ &amp;amp; 操作数限制：14 分值：1  第一题使用not以及and来实现xor。从书中例题可以知道x^y=(x&amp;amp;~y)|(~x&amp;amp;y)，但是这题不能用or。 观察(x&amp;amp;~y)，发现只有x=1且y=0时为1，对于(~x&amp;amp;y)，x=0且y=1时为1。 将这两个取反得| (x&amp;amp;y) | 1 |">
@@ -456,7 +456,7 @@
 <li>分值：4</li>
 </ul>
 <p>对于规格化浮点数，其表示为2^exp<em>frac，2</em>f即2^(exp+1)*frac，将exp部分加一即可。</p>
-<p>对于规格化浮点数，因为exp已经确定不能改变，所以要想将其乘以2只要将frac乘以2，即左移一位即可。</p>
+<p>对于非规格化浮点数，因为exp已经确定不能改变，所以要想将其乘以2只要将frac乘以2，即左移一位即可。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="title">floatScale2</span><span class="params">(<span class="keyword">unsigned</span> uf)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> sign = uf &amp; <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">int</span> <span class="built_in">exp</span> = (uf &amp; <span class="number">0x7f800000</span>) &gt;&gt; <span class="number">23</span>;</span><br><span class="line">  <span class="keyword">int</span> frac = uf &amp; <span class="number">0x007fffff</span>;</span><br><span class="line">  <span class="keyword">int</span> res, masked;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">exp</span> == <span class="number">255</span>)&#123;</span><br><span class="line">    <span class="comment">// if number is NaN or Infinity</span></span><br><span class="line">    <span class="keyword">return</span> uf;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">exp</span> == <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">// for denormal numbers, *2 means left shift frac once</span></span><br><span class="line">    frac = frac &lt;&lt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> frac | sign;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// for normal numbers, *2 means left add one to exp</span></span><br><span class="line">  <span class="built_in">exp</span> = <span class="built_in">exp</span> + <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// clear original number's exp area and then apply new exp in</span></span><br><span class="line">  masked = uf &amp; <span class="number">0x807fffff</span>;</span><br><span class="line">  res = (<span class="built_in">exp</span> &lt;&lt; <span class="number">23</span>) | masked;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="floatFloat2Int"><a href="#floatFloat2Int" class="headerlink" title="floatFloat2Int"></a>floatFloat2Int</h2><ul>
@@ -509,6 +509,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/02/我的大学时代（一）/" rel="prev" title="我的大学时代（一）：初识">
+                我的大学时代（一）：初识 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -585,7 +589,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

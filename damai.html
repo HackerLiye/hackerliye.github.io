@@ -12,7 +12,7 @@
     --badge-bg: #ffe7f0;
     --badge-fg: #f7235e;
     --ink:      #1a1a1a;
-    --label:    #333;
+    --label:    #8c8c8c;
     --line:     #eee;
   }
   *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -30,13 +30,17 @@
   .navbar{
     background:var(--brand); color:#fff; height:52px;
     display:flex; align-items:center; justify-content:center;
-    position:relative; font-size:19px; font-weight:600; letter-spacing:1px;
+    position:sticky; top:0; z-index:30;
+    font-size:17px; font-weight:600; letter-spacing:2px;
   }
   .navbar .back{ position:absolute; left:16px; font-size:26px; line-height:1; font-weight:400; }
 
   .content{ position:relative; flex:1; padding:22px 18px 30px; overflow:hidden; }
   .watermark{
-    position:absolute; inset:0; pointer-events:none; z-index:5;
+    position:fixed; top:0; bottom:0;
+    left:50%; transform:translateX(-50%);
+    width:100%; max-width:420px;
+    pointer-events:none; z-index:20;
     background-image:url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='180' height='96'>\
 <text x='2' y='70' font-size='12.5' fill='rgba(0,0,0,0.06)' \
@@ -45,19 +49,23 @@ font-family='sans-serif' transform='rotate(-24 2 70)'>仅用于大麦实人认�
   }
 
   .notice{ text-align:center; line-height:1.65; position:relative; z-index:6; }
-  .notice .black{ color:var(--ink); font-size:19px; font-weight:700; }
+  .notice .black{ color:var(--ink); font-size:17px; font-weight:700; }
   .notice .red{ color:var(--warn-red); font-weight:700; margin-top:5px; }
-  .notice .red.lg{ font-size:18px; }
-  .notice .red.sm{ font-size:15.5px; }
+  .notice .red.lg{ font-size:16px; }
+  .notice .red.sm{ font-size:15px; }
 
-  .qr-wrap{ margin:20px auto 0; width:204px; position:relative; z-index:6; }
+  .qr-wrap{ margin:20px auto 0; width:55%; max-width:230px; position:relative; z-index:6; }
   .qr-card{
     background:#f7f7f7; border-radius:0; padding:10px;
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; position:relative; min-height:auto;
   }
-  #qrcode img, #qrcode canvas{ display:block; background:#fff; padding:8px; border-radius:4px; }
-  .uploaded{ width:168px; height:168px; object-fit:contain; background:#fff; padding:8px; border-radius:4px; }
+  #qrcode{ width:100%; line-height:0; }
+  #qrcode img, #qrcode canvas{
+    display:block; width:100%; height:auto; background:#fff; padding:8px;
+    border-radius:0; image-rendering:pixelated;
+  }
+  .uploaded{ width:100%; height:auto; aspect-ratio:1; object-fit:contain; background:#fff; padding:8px; }
 
   /* 旋转锥形渐变光带：两端为径向直线 → 落在方框上形成“斜边” */
   .runner{
@@ -85,35 +93,36 @@ font-family='sans-serif' transform='rotate(-24 2 70)'>仅用于大麦实人认�
   @media (prefers-reduced-motion: reduce){ .runner-spin{ animation:none; } }
 
   .selfie{
-    margin:18px auto 0; width:204px; height:204px; border-radius:0; overflow:hidden;
+    margin:18px auto 0; width:calc(55% - 20px); max-width:210px; aspect-ratio:1;
+    border-radius:0; overflow:hidden;
     position:relative; z-index:6; cursor:pointer;
     background:linear-gradient(135deg,#d9d4cb,#c4beb3);
     display:flex; align-items:center; justify-content:center;
   }
   .selfie img.photo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
   .selfie .avatar{
-    width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,.35);
+    width:108px; height:108px; border-radius:50%; background:rgba(255,255,255,.35);
     display:flex; align-items:center; justify-content:center;
   }
-  .selfie .avatar svg{ width:78px; height:78px; fill:#7a7568; }
+  .selfie .avatar svg{ width:70px; height:70px; fill:#7a7568; }
 
   .info{ margin-top:24px; position:relative; z-index:6; border-top:1px solid var(--line); }
   .info .row{
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 4px; border-bottom:1px solid var(--line); min-height:60px;
+    padding:18px 4px; border-bottom:1px solid var(--line); min-height:58px;
   }
-  .info .label{ font-size:17px; color:var(--label); display:flex; align-items:center; gap:8px; }
-  .eye{ width:21px; height:21px; fill:#bbb; cursor:pointer; }
-  .info .value{ display:flex; align-items:center; gap:10px; font-size:17px; color:var(--ink); }
+  .info .label{ font-size:15px; color:var(--label); display:flex; align-items:center; gap:8px; }
+  .eye{ width:20px; height:20px; fill:#8c8c8c; cursor:pointer; }
+  .info .value{ display:flex; align-items:center; gap:10px; font-size:15px; color:var(--ink); }
   .editable{ cursor:pointer; }
   .editable:active{ opacity:.55; }
   .badge{
     display:inline-flex; align-items:center; gap:4px;
     background:var(--badge-bg); color:var(--badge-fg);
-    font-size:13px; font-weight:600; padding:4px 10px; border-radius:20px;
+    font-size:12px; font-weight:600; padding:4px 9px; border-radius:20px;
   }
-  .badge svg{ width:14px; height:14px; fill:var(--badge-fg); }
-  .time{ color:#888; font-size:16px; }
+  .badge svg{ width:13px; height:13px; fill:var(--badge-fg); }
+  .time{ color:#8c8c8c; font-size:14px; }
 
   input[type=file]{ display:none; }
 </style>
